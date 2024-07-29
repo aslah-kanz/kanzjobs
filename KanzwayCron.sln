@@ -1,0 +1,28 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanzwayCron", "src\KanzwayCron.csproj", "{0170BAEE-723D-4641-861C-AD1AF0A5D40D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KanzwayCron.Test", "test\KanzwayCron.Test.csproj", "{C0C84908-FBFF-4E4B-9B5D-A7E79A4B1357}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0170BAEE-723D-4641-861C-AD1AF0A5D40D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0170BAEE-723D-4641-861C-AD1AF0A5D40D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0170BAEE-723D-4641-861C-AD1AF0A5D40D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0170BAEE-723D-4641-861C-AD1AF0A5D40D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C0C84908-FBFF-4E4B-9B5D-A7E79A4B1357}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C0C84908-FBFF-4E4B-9B5D-A7E79A4B1357}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C0C84908-FBFF-4E4B-9B5D-A7E79A4B1357}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C0C84908-FBFF-4E4B-9B5D-A7E79A4B1357}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

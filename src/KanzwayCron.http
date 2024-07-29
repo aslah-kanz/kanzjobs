@@ -1,0 +1,6 @@
+@KanzwayCron_HostAddress = http://localhost:5241
+
+GET {{KanzwayCron_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
