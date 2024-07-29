@@ -1,3 +1,4 @@
+using System.Text;
 using Hangfire.Dashboard;
 
 public class BasicAuthAuthorizationFilter : IDashboardAuthorizationFilter
@@ -15,30 +16,22 @@ public class BasicAuthAuthorizationFilter : IDashboardAuthorizationFilter
     {
         var httpContext = context.GetHttpContext();
 
-        if (httpContext.User.Identity.IsAuthenticated)
+        if (httpContext.Request.Headers.ContainsKey("Authorization"))
         {
-            return true;
-        }
-
-        var authHeader = httpContext.Request.Headers["Authorization"];
-
-        if (authHeader.Count > 0)
-        {
-            var authHeaderValue = AuthenticationHeaderValue.Parse(authHeader);
-            var credentials = Encoding.UTF8.GetString(Convert.FromBase64String(authHeaderValue.Parameter)).Split(':');
-            var username = credentials[0];
-            var password = credentials[1];
-
-            if (username == _username && password == _password)
+            var authHeader = httpContext.Request.Headers["Authorization"].ToString();
+            if (authHeader.StartsWith("Basic "))
             {
-                var claims = new[] { new Claim("name", username), new Claim(ClaimTypes.Role, "Administrator") };
-                var identity = new ClaimsIdentity(claims, "Basic");
-                httpContext.User = new ClaimsPrincipal(new ClaimsIdentity(identity));
-                return true;
+                var credentials = Encoding.UTF8.GetString(Convert.FromBase64String(authHeader.Substring("Basic ".Length).Trim())).Split(':');
+                if (credentials.Length == 2)
+                {
+                    var username = credentials[0];
+                    var password = credentials[1];
+                    return username == _username && password == _password;
+                }
             }
         }
 
-        httpContext.Response.Headers["WWW-Authenticate"] = "Basic";
+        httpContext.Response.Headers["WWW-Authenticate"] = "Basic realm=\"Kanzway\"";
         httpContext.Response.StatusCode = 401;
         return false;
     }

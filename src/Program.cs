@@ -5,12 +5,13 @@ using KanzwayCron.Jobs;
 using KanzwayCron.Repositories;
 using KanzwayCron.Services;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authentication;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
 builder.Services.AddControllers();
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<KanzDbContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("KanzwayConnection")));
@@ -34,20 +35,7 @@ builder.Services.AddSingleton<IHttpRequestRepository, HttpRequestRepository>();
 
 builder.Services.AddHangfireServer();
 
-// Add basic authentication
-builder.Services.AddAuthentication("BasicAuthentication")
-    .AddScheme<AuthenticationSchemeOptions, BasicAuthenticationHandler>("BasicAuthentication", null);
-
-// Add logging
-builder.Logging.ClearProviders();
-builder.Logging.AddConsole();
-builder.Logging.AddDebug();
-builder.Logging.AddEventSourceLogger();
-
 var app = builder.Build();
-
-var jobs = new KanzwayRecurrentJob(app);
-jobs.SetupJobs();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -63,9 +51,12 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+var username = builder.Configuration["BasicAuthentication:Username"];
+var password = builder.Configuration["BasicAuthentication:Password"];
+
 app.UseHangfireDashboard("/dashboard", new DashboardOptions
 {
-    Authorization = new[] { new BasicAuthAuthorizationFilter("BasicAuthentication") }
+    Authorization = new[] { new BasicAuthAuthorizationFilter(username!, password!) }
 });
 
 app.Run();
